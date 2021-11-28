@@ -50,23 +50,23 @@ services:
     container_name: kafka_ui
     image: provectuslabs/kafka-ui:latest
     environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+     KAFKA_CLUSTERS_0_NAME: local
+     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     ports:
       - 8081:8080
 
-#  connect:
-#    container_name: connect
-#    image: debezium/connect:1.7
-#    ports:
-#      - 8083:8083
-#    environment:
-#      BOOTSTRAP_SERVERS: kafka
-#      GROUP_ID : 1
-#      CONFIG_STORAGE_TOPIC: my_connect_configs
-#      OFFSET_STORAGE_TOPIC: my_connect_offsets
-#      STATUS_STORAGE_TOPIC: my_connect_statuses
-#    links:
-#      - zookeeper:zookeeper
-#      - kafka:kafka
-#      - mysql:mysql
+  connect:
+    container_name: connect
+    image: debezium/connect:1.7
+    ports:
+      - 8083:8083
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID : 1
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+    links:
+      - zookeeper:zookeeper
+      - kafka:kafka
+      - mysql:mysql
