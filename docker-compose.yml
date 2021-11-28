@@ -1,16 +1,17 @@
 services:
   mysql:
-    image: mysql
+    container_name: mysql
+    image: debezium/example-mysql:1.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: test_db
+      MYSQL_ROOT_PASSWORD: debezium
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpw
     ports:
       - 3306:3306
-    volumes:
-      - ~/my-db:/var/lib/mysql
 
   adminer:
+    container_name: adminer
     image: adminer
     restart: always
     environment:
@@ -19,9 +20,53 @@ services:
       - 8080:8080
 
   couchbase-db:
+    container_name: couchbase
     image: couchbase
     ports:
       - 8091:8091
       - 8092:8092
       - 8093:8093
       - 11210:11210
+
+  zookeeper:
+    container_name: zookeeper
+    image: debezium/zookeeper:1.7
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+
+  kafka:
+    container_name: kafka
+    image: debezium/kafka:1.7
+    environment:
+      ZOOKEEPER_CONNECT: zookeeper
+    ports:
+      - 9092:9092
+    links:
+      - zookeeper:zookeeper
+
+  kafka-ui:
+    container_name: kafka_ui
+    image: provectuslabs/kafka-ui:latest
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    ports:
+      - 8081:8080
+
+#  connect:
+#    container_name: connect
+#    image: debezium/connect:1.7
+#    ports:
+#      - 8083:8083
+#    environment:
+#      BOOTSTRAP_SERVERS: kafka
+#      GROUP_ID : 1
+#      CONFIG_STORAGE_TOPIC: my_connect_configs
+#      OFFSET_STORAGE_TOPIC: my_connect_offsets
+#      STATUS_STORAGE_TOPIC: my_connect_statuses
+#    links:
+#      - zookeeper:zookeeper
+#      - kafka:kafka
+#      - mysql:mysql
