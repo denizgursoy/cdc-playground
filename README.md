@@ -1,5 +1,10 @@
 # cdc-playground
-curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d "@connector.json"
+
+docker build . --tag couchbasedebezium
+
+
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d "@my-sql-source-connector.json"
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d "@couchbase-sink-connector.json"
 
 
 
