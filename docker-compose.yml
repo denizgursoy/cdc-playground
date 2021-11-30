@@ -74,7 +74,7 @@ services:
 #
   connect:
     container_name: connect
-    image: couchbasedebezium
+    build: .
     ports:
       - 8083:8083
     environment:
