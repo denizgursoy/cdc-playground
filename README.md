@@ -42,4 +42,7 @@ curl -X POST localhost:8083/connectors/sink-connector/tasks/0/restart
 curl -X GET localhost:8083/connectors/source-connector/status  
 curl -X GET localhost:8083/connectors/sink-connector/status  
 
+curl -X DELETE localhost:8083/connectors/source-connector  
+curl -X DELETE localhost:8083/connectors/sink-connector
+
 ```
