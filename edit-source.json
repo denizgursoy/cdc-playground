@@ -11,6 +11,8 @@
   "database.history.kafka.bootstrap.servers": "kafka:9092",
   "database.history.kafka.topic": "schema-changes.inventory",
 
+  "snapshot.locking.mode": "none",
+  "table.include.list": "inventory.customers",
 
   "key.converter": "org.apache.kafka.connect.storage.StringConverter",
   "key.converter.schemas.enable": "false",
@@ -18,11 +20,18 @@
   "value.converter.schemas.enable": "false",
   "tombstones.on.delete": "true",
 
-  "transforms": "unwrap",
-  "transforms.unwrap.drop.tombstones": "false",
-  "transforms.unwrap.delete.handling.mode": "drop",
-  "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
 
-  "transforms.extract.type":"org.apache.kafka.connect.transforms.ExtractField$Key",
-  "transforms.extract.field": "id"
+  "transforms": "unwrap,extract",
+  "transforms.extract.field": "id",
+  "transforms.extract.predicate": "IsTargetTable",
+
+  "predicates": "IsTargetTable",
+  "predicates.IsTargetTable.pattern": "dbserver1.inventory.*",
+  "predicates.IsTargetTable.type": "org.apache.kafka.connect.transforms.predicates.TopicNameMatches",
+
+  "transforms.extract.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
+  "transforms.unwrap.delete.handling.mode": "drop",
+  "transforms.unwrap.drop.tombstones": "false",
+  "transforms.unwrap.predicate": "IsTargetTable",
+  "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState"
 }
