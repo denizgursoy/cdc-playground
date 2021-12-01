@@ -6,8 +6,7 @@ curl -v -X POST http://localhost:8091/pools/default/buckets \
 -u Administrator:password \
 -d name=staging \
 -d bucketType=couchbase \
--d ramQuotaMB=600 \
--d durabilityMinLevel=majorityAndPersistActive
+-d ramQuotaMB=600
 
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d "@source-connector.json"
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d "@sink-connector.json"
