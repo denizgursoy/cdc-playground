@@ -12,13 +12,20 @@
     "database.include.list": "inventory",
     "database.history.kafka.bootstrap.servers": "kafka:9092",
     "database.history.kafka.topic": "schema-changes.inventory",
+
+
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "key.converter.schemas.enable": "false",
-    "value.converter.schemas.enable": "false",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "tombstones.on.delete": "true",
+
     "transforms": "unwrap",
-    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
     "transforms.unwrap.drop.tombstones": "false",
-    "transforms.unwrap.delete.handling.mode": "rewrite"
+    "transforms.unwrap.delete.handling.mode": "drop",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+
+    "transforms.extract.type":"org.apache.kafka.connect.transforms.ExtractField$Key",
+    "transforms.extract.field": "id"
   }
 }

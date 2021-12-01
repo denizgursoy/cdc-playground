@@ -1,0 +1,28 @@
+{
+  "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+  "tasks.max": "1",
+  "database.hostname": "mysql",
+  "database.port": "3306",
+  "database.user": "debezium",
+  "database.password": "dbz",
+  "database.server.id": "184054",
+  "database.server.name": "dbserver1",
+  "database.include.list": "inventory",
+  "database.history.kafka.bootstrap.servers": "kafka:9092",
+  "database.history.kafka.topic": "schema-changes.inventory",
+
+
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "key.converter.schemas.enable": "false",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter.schemas.enable": "false",
+  "tombstones.on.delete": "true",
+
+  "transforms": "unwrap",
+  "transforms.unwrap.drop.tombstones": "false",
+  "transforms.unwrap.delete.handling.mode": "drop",
+  "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+
+  "transforms.extract.type":"org.apache.kafka.connect.transforms.ExtractField$Key",
+  "transforms.extract.field": "id"
+}
